@@ -18,11 +18,13 @@ import java.awt.Color;
 public class Barberia extends javax.swing.JFrame {
 
     ArrayList<Cliente> clientes;
+    int contador, posicionX = 0,posicionY = 0;
     public Barberia() {
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
         clientes = new ArrayList<Cliente>();
+        contador = 0;
     }
 
     /**
@@ -272,8 +274,25 @@ public class Barberia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btncrearClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearClientesActionPerformed
-        ProducirCliente producirCliete = new ProducirCliente();
-        producirCliete.start();
+        
+        String nombre = "Cliente "+(contador+1);
+                Cliente cliente = new Cliente();
+                cliente.setNombre(nombre);
+                if(clientes.size()<4){ //Clientes que esperan en le sofa
+                    cliente.getLable().setBounds(posicionX,0, 96, 84);
+                    sofaPanel.add(cliente.getLable());
+                    sofaPanel.repaint();
+                    posicionX+=94;
+                }
+                else{//Clientes que esperan de pie
+                    cliente.getLable().setBounds(0,posicionY, 96, 84);
+                    esperaDePie.add(cliente.getLable());
+                    esperaDePie.repaint();
+                    posicionY+=84;
+                    
+                }
+                clientes.add(cliente);
+                contador++ ;
     }//GEN-LAST:event_btncrearClientesActionPerformed
 
     /**
@@ -310,41 +329,7 @@ public class Barberia extends javax.swing.JFrame {
             }
         });
     }
-       public class ProducirCliente extends Thread {
-
-        @Override
-        public void run() {
-           int contador = 0, posicionX = 0,posicionY = 0;
-           String nombre = "";
-            while (contador<8) {
-                nombre = "Cliente "+(contador+1);
-                Cliente cliente = new Cliente();
-                cliente.setNombre(nombre);
-                if(clientes.size()<4){ //Clientes que esperan en le sofa
-                    cliente.getLable().setBounds(posicionX,0, 96, 84);
-                    sofaPanel.add(cliente.getLable());
-                    sofaPanel.repaint();
-                    posicionX+=94;
-                }
-                else{//Clientes que esperan de pie
-                    cliente.getLable().setBounds(0,posicionY, 96, 84);
-                    esperaDePie.add(cliente.getLable());
-                    esperaDePie.repaint();
-                    posicionY+=84;
-                    
-                }
-                clientes.add(cliente);
-                contador++ ;
-                 System.out.println("tamaño array: "+clientes.size());
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
+       
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barberia;
     private javax.swing.JButton btncrearClientes;
