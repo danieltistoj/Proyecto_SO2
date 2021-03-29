@@ -10,6 +10,7 @@ import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import Clase.*;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -57,6 +58,7 @@ public class Barberia extends javax.swing.JFrame {
         barraUno = new javax.swing.JProgressBar();
         barraDos = new javax.swing.JProgressBar();
         barraTres = new javax.swing.JProgressBar();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btncrearClientes = new javax.swing.JButton();
@@ -157,6 +159,8 @@ public class Barberia extends javax.swing.JFrame {
 
         barraTres.setStringPainted(true);
 
+        jProgressBar1.setStringPainted(true);
+
         javax.swing.GroupLayout panelBarberiaLayout = new javax.swing.GroupLayout(panelBarberia);
         panelBarberia.setLayout(panelBarberiaLayout);
         panelBarberiaLayout.setHorizontalGroup(
@@ -178,10 +182,6 @@ public class Barberia extends javax.swing.JFrame {
                 .addGap(128, 128, 128)
                 .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBarberiaLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cajaResgistadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))
-                    .addGroup(panelBarberiaLayout.createSequentialGroup()
                         .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelBarberiaLayout.createSequentialGroup()
@@ -200,7 +200,13 @@ public class Barberia extends javax.swing.JFrame {
                                     .addComponent(barraTres, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                         .addComponent(jLabel5)
-                        .addGap(44, 44, 44))))
+                        .addGap(44, 44, 44))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBarberiaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cajaResgistadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(60, 60, 60))))
         );
         panelBarberiaLayout.setVerticalGroup(
             panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,6 +233,8 @@ public class Barberia extends javax.swing.JFrame {
                             .addComponent(cajaResgistadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(barraDos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(barraTres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sofaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelBarberiaLayout.createSequentialGroup()
@@ -384,15 +392,50 @@ public class Barberia extends javax.swing.JFrame {
     }//GEN-LAST:event_btncrearClientesActionPerformed
 
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
+      
+      //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
       Cliente cliente = clientes.get(0);
+      
+      if(barbero1.getEstado()!=1){
       sofaPanel.remove(cliente.getLable());
       sofaPanel.repaint();
       barbero1.AgragarCliente(cliente.getLable());
       barbero1.setEstado(1);
+      barbero1.setCliente(cliente);
       clientes.remove(0);
       CorrerClientes();
       AtenderCliente atender = new AtenderCliente(barbero1.getBarra());
       atender.start();
+      }
+      else if(barbero2.getEstado()!=1){
+      sofaPanel.remove(cliente.getLable());
+      sofaPanel.repaint();
+      barbero2.AgragarCliente(cliente.getLable());
+      barbero2.setEstado(1);
+      barbero2.setCliente(cliente);
+      clientes.remove(0);
+      CorrerClientes();
+      AtenderCliente atender = new AtenderCliente(barbero2.getBarra());
+      atender.start();
+          
+      }
+      else if(barbero3.getEstado()!=1){
+      sofaPanel.remove(cliente.getLable());
+      sofaPanel.repaint();
+      barbero3.AgragarCliente(cliente.getLable());
+      barbero3.setEstado(1);
+      barbero3.setCliente(cliente);
+      clientes.remove(0);
+      CorrerClientes();
+      AtenderCliente atender = new AtenderCliente(barbero3.getBarra());
+      atender.start();
+          
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"Todos los barberos estan ocupados","ERROR",JOptionPane.ERROR_MESSAGE);
+      }
+      
+      
     }//GEN-LAST:event_btnAtenderActionPerformed
 
     /**
@@ -464,6 +507,7 @@ public class Barberia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JPanel panelBarberia;
     private javax.swing.JPanel sillaDos;
     private javax.swing.JPanel sillaTres;

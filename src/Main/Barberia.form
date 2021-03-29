@@ -80,11 +80,6 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="cajaResgistadora" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jLabel4" min="-2" pref="411" max="-2" attributes="0"/>
@@ -111,6 +106,14 @@
                           <EmptySpace pref="121" max="32767" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="cajaResgistadora" max="32767" attributes="0"/>
+                              <Component id="jProgressBar1" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -148,6 +151,8 @@
                               <Component id="barraDos" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="barraTres" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="sofaPanel" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -314,6 +319,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JProgressBar" name="barraTres">
+          <Properties>
+            <Property name="stringPainted" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JProgressBar" name="jProgressBar1">
           <Properties>
             <Property name="stringPainted" type="boolean" value="true"/>
           </Properties>

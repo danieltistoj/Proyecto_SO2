@@ -20,6 +20,7 @@ public class Barbero {
       private JPanel panel;
       private JLabel label;
       private JProgressBar barra;
+      private Cliente cliente;
       public Barbero(String nombre,JPanel panel,JProgressBar barra){
           this.estado = 0;
           this.nombre = nombre;
@@ -42,5 +43,8 @@ public class Barbero {
           label.setBounds(0,0,96,84);
           this.panel.add(label);
           this.panel.repaint();
+      }
+      public void setCliente(Cliente cliente){
+          this.cliente = cliente;
       }
 }
