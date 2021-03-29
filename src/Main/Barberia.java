@@ -21,7 +21,7 @@ import javax.swing.JProgressBar;
 public class Barberia extends javax.swing.JFrame {
 
     ArrayList<Cliente> clientes;
-    int contador, posicionX = 0,posicionY = 0;
+    int contador, posicionX = 0,posicionY = 0, verificacionCobro;
     Barbero barbero1, barbero2, barbero3;
     public Barberia() {
         initComponents();
@@ -33,6 +33,7 @@ public class Barberia extends javax.swing.JFrame {
         barbero1 = new Barbero("Barbero 1", sillaUno,barraUno);
         barbero2 = new Barbero("Barbero 2", sillaDos,barraDos);
         barbero3 = new Barbero("Barbero 3", sillaTres,barraTres);
+        verificacionCobro = 0;//si esta en cero no hay nadie cobrando, si esta en uno hay alguien cobrando en la caja registradora
     }
 
     /**
@@ -58,7 +59,8 @@ public class Barberia extends javax.swing.JFrame {
         barraUno = new javax.swing.JProgressBar();
         barraDos = new javax.swing.JProgressBar();
         barraTres = new javax.swing.JProgressBar();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        barraCobrar = new javax.swing.JProgressBar();
+        labelCobrando = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btncrearClientes = new javax.swing.JButton();
@@ -114,6 +116,8 @@ public class Barberia extends javax.swing.JFrame {
             .addGap(0, 84, Short.MAX_VALUE)
         );
 
+        cajaResgistadora.setBackground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout cajaResgistadoraLayout = new javax.swing.GroupLayout(cajaResgistadora);
         cajaResgistadora.setLayout(cajaResgistadoraLayout);
         cajaResgistadoraLayout.setHorizontalGroup(
@@ -159,7 +163,11 @@ public class Barberia extends javax.swing.JFrame {
 
         barraTres.setStringPainted(true);
 
-        jProgressBar1.setStringPainted(true);
+        barraCobrar.setStringPainted(true);
+
+        labelCobrando.setForeground(new java.awt.Color(0, 0, 0));
+        labelCobrando.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCobrando.setText("Espera....");
 
         javax.swing.GroupLayout panelBarberiaLayout = new javax.swing.GroupLayout(panelBarberia);
         panelBarberia.setLayout(panelBarberiaLayout);
@@ -173,11 +181,17 @@ public class Barberia extends javax.swing.JFrame {
                     .addGroup(panelBarberiaLayout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addComponent(esperaDePie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(55, 55, 55)
-                .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
-                    .addComponent(sofaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBarberiaLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                            .addComponent(sofaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBarberiaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelCobrando, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))))
             .addGroup(panelBarberiaLayout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +219,7 @@ public class Barberia extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(panelBarberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cajaResgistadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(barraCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(60, 60, 60))))
         );
         panelBarberiaLayout.setVerticalGroup(
@@ -234,7 +248,9 @@ public class Barberia extends javax.swing.JFrame {
                             .addComponent(barraDos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(barraTres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(barraCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelCobrando, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sofaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelBarberiaLayout.createSequentialGroup()
@@ -392,8 +408,8 @@ public class Barberia extends javax.swing.JFrame {
     }//GEN-LAST:event_btncrearClientesActionPerformed
 
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-      
-      //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
+      if(clientes.size()!=0){
+          //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
       Cliente cliente = clientes.get(0);
       
       if(barbero1.getEstado()!=1){
@@ -404,7 +420,7 @@ public class Barberia extends javax.swing.JFrame {
       barbero1.setCliente(cliente);
       clientes.remove(0);
       CorrerClientes();
-      AtenderCliente atender = new AtenderCliente(barbero1.getBarra());
+      AtenderCliente atender = new AtenderCliente(barbero1.getBarra(),barbero1);
       atender.start();
       }
       else if(barbero2.getEstado()!=1){
@@ -415,7 +431,7 @@ public class Barberia extends javax.swing.JFrame {
       barbero2.setCliente(cliente);
       clientes.remove(0);
       CorrerClientes();
-      AtenderCliente atender = new AtenderCliente(barbero2.getBarra());
+      AtenderCliente atender = new AtenderCliente(barbero2.getBarra(),barbero2);
       atender.start();
           
       }
@@ -427,12 +443,17 @@ public class Barberia extends javax.swing.JFrame {
       barbero3.setCliente(cliente);
       clientes.remove(0);
       CorrerClientes();
-      AtenderCliente atender = new AtenderCliente(barbero3.getBarra());
+      AtenderCliente atender = new AtenderCliente(barbero3.getBarra(),barbero3);
       atender.start();
           
       }
       else{
           JOptionPane.showMessageDialog(null,"Todos los barberos estan ocupados","ERROR",JOptionPane.ERROR_MESSAGE);
+      }
+          
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"No hay clientes para atender","Error",JOptionPane.ERROR_MESSAGE);
       }
       
       
@@ -475,8 +496,10 @@ public class Barberia extends javax.swing.JFrame {
        
     public class AtenderCliente extends Thread{
         JProgressBar barra;
-        public AtenderCliente(JProgressBar barra){
+        Barbero barbero;
+        public AtenderCliente(JProgressBar barra,Barbero barbero){
             this.barra = barra;
+            this.barbero = barbero;
         }
 
         @Override
@@ -489,11 +512,57 @@ public class Barberia extends javax.swing.JFrame {
              }
              barra.setValue(i);
          }
-         //barra.setValue(0);
+         boolean aux = true;
+         while(aux){
+             try {
+                 Thread.sleep(1000);
+             } catch (InterruptedException ex) {
+                 java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+             }
+             if(verificacionCobro == 0){
+                 CobrarCliente cobrar = new CobrarCliente(barbero);
+                 cobrar.start();
+                 aux = false;
+             }
+             
+         }
+         barbero.getPanel().remove(barbero.getCliente().getLable());
+         barbero.getPanel().repaint();
+         barra.setValue(0);
          }
         
     }
+    public class CobrarCliente extends Thread{
+        Barbero barbero;
+        public CobrarCliente(Barbero barbero){
+            this.barbero = barbero;
+            verificacionCobro = 1;
+            cajaResgistadora.setBackground(Color.GREEN);
+            String text = "<html><body>"+ "Cobrando a "+this.barbero.getCliente().getNombre()+ "<br>" +"el barbero "+barbero.getNombre()+"</body></html>";
+            labelCobrando.setText(text);
+        }
+        @Override
+         public void run() {
+         for(int i = 1; i<=100;i++){
+              try {
+                 Thread.sleep(100);
+             } catch (InterruptedException ex) {
+                 java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+             }
+             barraCobrar.setValue(i);
+         }
+         //termina de cobrar
+         barbero.setEstado(0);//regresamos al estado cero al barbero
+         cajaResgistadora.setBackground(Color.black);
+         labelCobrando.setText("Espera...");
+         barraCobrar.setValue(0);
+         verificacionCobro=0;//la caja ahora esta en espera
+         
+ 
+         }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar barraCobrar;
     private javax.swing.JProgressBar barraDos;
     private javax.swing.JProgressBar barraTres;
     private javax.swing.JProgressBar barraUno;
@@ -507,7 +576,7 @@ public class Barberia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JLabel labelCobrando;
     private javax.swing.JPanel panelBarberia;
     private javax.swing.JPanel sillaDos;
     private javax.swing.JPanel sillaTres;

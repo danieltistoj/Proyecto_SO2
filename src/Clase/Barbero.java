@@ -47,4 +47,13 @@ public class Barbero {
       public void setCliente(Cliente cliente){
           this.cliente = cliente;
       }
+      public Cliente getCliente(){
+          return cliente;
+      }
+      public JPanel getPanel(){
+          return panel;
+      }
+      public String getNombre(){
+          return nombre;
+      }
 }
