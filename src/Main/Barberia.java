@@ -60,7 +60,6 @@ public class Barberia extends javax.swing.JFrame {
         barraUno = new javax.swing.JProgressBar();
         barraDos = new javax.swing.JProgressBar();
         barraTres = new javax.swing.JProgressBar();
-        jLabel5 = new javax.swing.JLabel();
         cajaResgistadora = new javax.swing.JPanel();
         barraCobrar = new javax.swing.JProgressBar();
         esperaDePie = new javax.swing.JPanel();
@@ -81,7 +80,7 @@ public class Barberia extends javax.swing.JFrame {
                 btncrearClientesActionPerformed(evt);
             }
         });
-        jPanel2.add(btncrearClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 490, -1, 40));
+        jPanel2.add(btncrearClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 480, -1, 40));
 
         btnAtender.setText("Atender");
         btnAtender.addActionListener(new java.awt.event.ActionListener() {
@@ -145,10 +144,6 @@ public class Barberia extends javax.swing.JFrame {
         barraTres.setStringPainted(true);
         jPanel2.add(barraTres, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 96, -1));
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Caja registradora");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 90, -1, -1));
-
         cajaResgistadora.setBackground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout cajaResgistadoraLayout = new javax.swing.GroupLayout(cajaResgistadora);
@@ -188,7 +183,7 @@ public class Barberia extends javax.swing.JFrame {
         labelCobrando.setForeground(new java.awt.Color(18, 79, 124));
         labelCobrando.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelCobrando.setText("Espera....");
-        jPanel2.add(labelCobrando, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 350, 125, 60));
+        jPanel2.add(labelCobrando, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 350, 170, 60));
 
         sofaPanel.setBackground(new java.awt.Color(214, 224, 230));
         sofaPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -497,7 +492,6 @@ public class Barberia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelCobrando;
     private javax.swing.JPanel sillaDos;
