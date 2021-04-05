@@ -346,7 +346,7 @@ public class Barberia extends javax.swing.JFrame {
             }
             sofaPanel.add(m);
             sofaPanel.repaint();
-            posicionX += 94;
+            posicionX += 96;
             mutex.release();
             clientes.add(cliente);
             contador++;
