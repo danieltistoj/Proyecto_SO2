@@ -37,7 +37,9 @@ public class Barberia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         clientes = new ArrayList<Cliente>();
         contador = 0;
-
+        
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbLogo, "src/img/barbero.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(jLabelcaja, "src/img/caja.png");
         barbero1 = new Barbero("Barbero 1", sillaUno, barraUno);
         barbero2 = new Barbero("Barbero 2", sillaDos, barraDos);
         barbero3 = new Barbero("Barbero 3", sillaTres, barraTres);
@@ -69,6 +71,8 @@ public class Barberia extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        lbLogo = new javax.swing.JLabel();
+        jLabelcaja = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,17 +147,17 @@ public class Barberia extends javax.swing.JFrame {
         cajaResgistadora.setLayout(cajaResgistadoraLayout);
         cajaResgistadoraLayout.setHorizontalGroup(
             cajaResgistadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
+            .addGap(0, 40, Short.MAX_VALUE)
         );
         cajaResgistadoraLayout.setVerticalGroup(
             cajaResgistadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
 
-        jPanel2.add(cajaResgistadora, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 280, 80, 40));
+        jPanel2.add(cajaResgistadora, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, 40, 20));
 
         barraCobrar.setStringPainted(true);
-        jPanel2.add(barraCobrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, 80, -1));
+        jPanel2.add(barraCobrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 380, 80, -1));
 
         esperaDePie.setBackground(new java.awt.Color(214, 224, 230));
         esperaDePie.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -170,13 +174,13 @@ public class Barberia extends javax.swing.JFrame {
             .addGap(0, 332, Short.MAX_VALUE)
         );
 
-        jPanel2.add(esperaDePie, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+        jPanel2.add(esperaDePie, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, -1, -1));
 
         labelCobrando.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         labelCobrando.setForeground(new java.awt.Color(18, 79, 124));
         labelCobrando.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelCobrando.setText("Espera....");
-        jPanel2.add(labelCobrando, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 350, 170, 60));
+        jPanel2.add(labelCobrando, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, 170, 60));
 
         sofaPanel.setBackground(new java.awt.Color(214, 224, 230));
         sofaPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -199,7 +203,7 @@ public class Barberia extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(18, 79, 124));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("CAJA REGISTRADORA");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 240, 180, 40));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 120, 180, 40));
 
         jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(18, 79, 124));
@@ -212,12 +216,14 @@ public class Barberia extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("SILLAS DE LOS BARBEROS");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 200, 40));
+        jPanel2.add(lbLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 150));
+        jPanel2.add(jLabelcaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 200, 200));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,8 +507,10 @@ public class Barberia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelcaja;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelCobrando;
+    private javax.swing.JLabel lbLogo;
     private javax.swing.JPanel sillaDos;
     private javax.swing.JPanel sillaTres;
     private javax.swing.JPanel sillaUno;
