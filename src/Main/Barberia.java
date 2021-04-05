@@ -466,11 +466,7 @@ public class Barberia extends javax.swing.JFrame {
         
         @Override
         public void run() {
-            try {
-                mutex.acquire();
-            } catch (InterruptedException ex) {
-                java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
+            
             for (int i = 1; i <= 100; i++) {
                 try {
                     Thread.sleep(50);
@@ -491,7 +487,6 @@ public class Barberia extends javax.swing.JFrame {
             durmiendo.setIcon(new ImageIcon("src/img/durmiendo.png"));
             System.out.println("entro");
             barbero.AgragarCliente(durmiendo);
-            mutex.release();
             atender_cliente();
         }
     }
