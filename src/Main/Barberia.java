@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import Clase.*;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +29,7 @@ public class Barberia extends javax.swing.JFrame {
     int contador, posicionX = 0, posicionY = 0, verificacionCobro;
     Barbero barbero1, barbero2, barbero3;
     JLabel durmiendo = new JLabel();
+    Semaphore mutex = new Semaphore(1,true);
 
     public Barberia() {
         initComponents();
@@ -281,15 +283,28 @@ public class Barberia extends javax.swing.JFrame {
             System.out.println("posicion en X " + posicionX);
             cliente.getLable().setBounds(posicionX, 0, 96, 84);
             JLabel m = cliente.getLable();
+            try {
+                mutex.acquire();
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
             sofaPanel.add(m);
             sofaPanel.repaint();
             posicionX += 94;
+            mutex.release();
         } else {//Clientes que esperan de pie
             cliente.getLable().setBounds(0, posicionY, 96, 84);
+            try {
+                mutex.acquire();
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
             esperaDePie.add(cliente.getLable());
             esperaDePie.repaint();
             posicionY += 84;
+            mutex.release();
         }
+        
         clientes.add(cliente);
         contador++;
         if (clientes.size() != 0) {
