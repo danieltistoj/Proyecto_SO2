@@ -21,6 +21,9 @@ public class Barbero {
       private JLabel label;
       private JProgressBar barra;
       private Cliente cliente;
+      
+      private int cobrar;
+      
       public Barbero(String nombre,JPanel panel,JProgressBar barra){
           this.estado = 0;
           this.nombre = nombre;

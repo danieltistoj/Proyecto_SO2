@@ -37,9 +37,11 @@ public class Barberia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         clientes = new ArrayList<Cliente>();
         contador = 0;
-        
+
         rsscalelabel.RSScaleLabel.setScaleLabel(lbLogo, "src/img/barbero.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(jLabelcaja, "src/img/caja.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(jLabelDolar, "src/img/dolar.png");
+
         barbero1 = new Barbero("Barbero 1", sillaUno, barraUno);
         barbero2 = new Barbero("Barbero 2", sillaDos, barraDos);
         barbero3 = new Barbero("Barbero 3", sillaTres, barraTres);
@@ -73,19 +75,33 @@ public class Barberia extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         lbLogo = new javax.swing.JLabel();
         jLabelcaja = new javax.swing.JLabel();
+        TotalAcumulado = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabelDolar = new javax.swing.JLabel();
+        jLabeltotal = new javax.swing.JLabel();
+        jLabeLacum1 = new javax.swing.JLabel();
+        jLabelacum2 = new javax.swing.JLabel();
+        jLabelacum3 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(214, 224, 230));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btncrearClientes.setBackground(new java.awt.Color(0, 102, 255));
+        btncrearClientes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btncrearClientes.setText("Crear Clientes");
         btncrearClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncrearClientesActionPerformed(evt);
             }
         });
-        jPanel2.add(btncrearClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 480, -1, 40));
+        jPanel2.add(btncrearClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, 140, 50));
 
         sillaUno.setBackground(new java.awt.Color(214, 224, 230));
 
@@ -197,7 +213,7 @@ public class Barberia extends javax.swing.JFrame {
             .addGap(0, 80, Short.MAX_VALUE)
         );
 
-        jPanel2.add(sofaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 380, 410, -1));
+        jPanel2.add(sofaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 410, -1));
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(18, 79, 124));
@@ -214,10 +230,70 @@ public class Barberia extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(18, 79, 124));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("SILLAS DE LOS BARBEROS");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 200, 40));
+        jLabel4.setText("Barbero 3");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 520, 90, 30));
         jPanel2.add(lbLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 150));
         jPanel2.add(jLabelcaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 200, 200));
+
+        TotalAcumulado.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        TotalAcumulado.setForeground(new java.awt.Color(18, 79, 124));
+        TotalAcumulado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TotalAcumulado.setText("Total Acumulado");
+        jPanel2.add(TotalAcumulado, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 440, 200, 40));
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Barbero 1");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 90, 30));
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Barbero 2");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, 90, 30));
+
+        jLabel8.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("SILLAS DE LOS BARBEROS");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 200, 40));
+        jPanel2.add(jLabelDolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 80, 70));
+
+        jLabeltotal.setBackground(new java.awt.Color(0, 102, 255));
+        jLabeltotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabeltotal.setText("$ 0");
+        jPanel2.add(jLabeltotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 470, 90, 30));
+
+        jLabeLacum1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabeLacum1.setText("$ 0");
+        jPanel2.add(jLabeLacum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 550, 80, 40));
+
+        jLabelacum2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelacum2.setText("$ 0");
+        jPanel2.add(jLabelacum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, 80, 30));
+
+        jLabelacum3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelacum3.setText("$ 0");
+        jPanel2.add(jLabelacum3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 550, 100, 30));
+
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Barbero 1");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 90, 30));
+
+        jLabel10.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Barbero 2");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 90, 30));
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Barbero 3");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 90, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -281,7 +357,8 @@ public class Barberia extends javax.swing.JFrame {
             posicionY -= 84;
         }
     }
-    public void atender_cliente(){
+
+    public void atender_cliente() {
         if (clientes.size() != 0) {
             //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
             Cliente cliente = clientes.get(0);
@@ -406,7 +483,8 @@ public class Barberia extends javax.swing.JFrame {
     }
 
     public class AtenderCliente extends Thread {
-        int rand= (int)Math.random()*50+25;
+
+        int rand = (int) Math.random() * 50 + 25;
         JProgressBar barra;
         Barbero barbero;
 
@@ -448,31 +526,56 @@ public class Barberia extends javax.swing.JFrame {
             barbero.getPanel().remove(barbero.getCliente().getLable());
             barbero.getPanel().repaint();
             barra.setValue(0);
-            
+
         }
 
+    }
+
+    int b1 = 10, b2 = 10, b3 = 10;    //monto acumulado para barbero 1,2,3
+    int total = 0;        // monto acumulado total
+
+    public void actualizarcobro(String barbero) {
+        if (barbero == "Barbero 1") {
+            jLabeLacum1.setText("$ " + String.valueOf(b1));
+            b1 += 10;
+            total += 10;
+            jLabeltotal.setText("$ " + String.valueOf(total));
+        } else if (barbero == "Barbero 2") {
+            jLabelacum2.setText("$ " + String.valueOf(b2));
+            b2 += 10;
+            total += 10;
+            jLabeltotal.setText("$ " + String.valueOf(total));
+        } else if (barbero == "Barbero 3"){
+            jLabelacum3.setText("$ " + String.valueOf(b3));
+            b3 += 10;
+            total += 10;
+            jLabeltotal.setText("$ " + String.valueOf(total));
+        }
     }
 
     public class CobrarCliente extends Thread {
 
         Barbero barbero;
         JLabel label = new JLabel();
+        int TotalAcumulado = 0;
 
         public CobrarCliente(Barbero barbero) {
             this.barbero = barbero;
             verificacionCobro = 1;
             cajaResgistadora.setBackground(Color.GREEN);
             String text = "<html><body>" + "Cobrando a " + this.barbero.getCliente().getNombre() + "<br>" + "el barbero " + barbero.getNombre() + "</body></html>";
+            System.out.println(this.barbero.getCliente().getNombre());
+            actualizarcobro(barbero.getNombre());
             labelCobrando.setText(text);
             label.setPreferredSize(new Dimension(96, 84));
             label.setIcon(new ImageIcon("src/img/pagando.png"));
             System.out.println("entro");
             barbero.AgragarCliente(label);
         }
-        
+
         @Override
         public void run() {
-            
+
             for (int i = 1; i <= 100; i++) {
                 try {
                     Thread.sleep(50);
@@ -497,6 +600,7 @@ public class Barberia extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel TotalAcumulado;
     private javax.swing.JProgressBar barraCobrar;
     private javax.swing.JProgressBar barraDos;
     private javax.swing.JProgressBar barraTres;
@@ -504,10 +608,21 @@ public class Barberia extends javax.swing.JFrame {
     private javax.swing.JButton btncrearClientes;
     private javax.swing.JPanel cajaResgistadora;
     private javax.swing.JPanel esperaDePie;
+    private javax.swing.JLabel jLabeLacum1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelDolar;
+    private javax.swing.JLabel jLabelacum2;
+    private javax.swing.JLabel jLabelacum3;
     private javax.swing.JLabel jLabelcaja;
+    private javax.swing.JLabel jLabeltotal;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelCobrando;
     private javax.swing.JLabel lbLogo;
