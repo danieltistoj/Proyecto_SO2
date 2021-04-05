@@ -29,7 +29,7 @@ public class Barberia extends javax.swing.JFrame {
     int contador, posicionX = 0, posicionY = 0, verificacionCobro;
     Barbero barbero1, barbero2, barbero3;
     JLabel durmiendo = new JLabel();
-    Semaphore mutex = new Semaphore(1,true);
+    Semaphore mutex = new Semaphore(1, true);
 
     public Barberia() {
         initComponents();
@@ -275,6 +275,56 @@ public class Barberia extends javax.swing.JFrame {
             posicionY -= 84;
         }
     }
+    public void atender(){
+        if (clientes.size() != 0) {
+            //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
+            Cliente cliente = clientes.get(0);
+            if (barbero1.getEstado() != 1) {
+                sofaPanel.remove(cliente.getLable());
+                sofaPanel.repaint();
+                barbero1.getPanel().remove(durmiendo);
+                barbero1.getPanel().repaint();
+                cliente.cambar();
+                barbero1.AgragarCliente(cliente.getLable());
+                barbero1.setEstado(1);
+                barbero1.setCliente(cliente);
+                clientes.remove(0);
+                CorrerClientes();
+                AtenderCliente atender = new AtenderCliente(barbero1.getBarra(), barbero1);
+                atender.start();
+            } else if (barbero2.getEstado() != 1) {
+                sofaPanel.remove(cliente.getLable());
+                sofaPanel.repaint();
+                barbero2.getPanel().remove(durmiendo);
+                barbero2.getPanel().repaint();
+                cliente.cambar();
+                barbero2.AgragarCliente(cliente.getLable());
+                barbero2.setEstado(1);
+                barbero2.setCliente(cliente);
+                clientes.remove(0);
+                CorrerClientes();
+                AtenderCliente atender = new AtenderCliente(barbero2.getBarra(), barbero2);
+                atender.start();
+            } else if (barbero3.getEstado() != 1) {
+                sofaPanel.remove(cliente.getLable());
+                sofaPanel.repaint();
+                barbero3.getPanel().remove(durmiendo);
+                barbero3.getPanel().repaint();
+                cliente.cambar();
+                barbero3.AgragarCliente(cliente.getLable());
+                barbero3.setEstado(1);
+                barbero3.setCliente(cliente);
+                clientes.remove(0);
+                CorrerClientes();
+                AtenderCliente atender = new AtenderCliente(barbero3.getBarra(), barbero3);
+                atender.start();
+            } else {
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay clientes para atender", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void btncrearClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearClientesActionPerformed
         String nombre = "Cliente " + (contador + 1);
         Cliente cliente = new Cliente();
@@ -292,7 +342,10 @@ public class Barberia extends javax.swing.JFrame {
             sofaPanel.repaint();
             posicionX += 94;
             mutex.release();
-        } else {//Clientes que esperan de pie
+            clientes.add(cliente);
+            contador++;
+            atender();
+        } else if (clientes.size() < 8) {//Clientes que esperan de pie
             cliente.getLable().setBounds(0, posicionY, 96, 84);
             try {
                 mutex.acquire();
@@ -303,59 +356,11 @@ public class Barberia extends javax.swing.JFrame {
             esperaDePie.repaint();
             posicionY += 84;
             mutex.release();
-        }
-        
-        clientes.add(cliente);
-        contador++;
-        if (clientes.size() != 0) {
-            //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
-            Cliente cliente2 = clientes.get(0);
-            if (barbero1.getEstado() != 1) {
-                sofaPanel.remove(cliente2.getLable());
-                sofaPanel.repaint();
-                barbero1.getPanel().remove(durmiendo);
-                barbero1.getPanel().repaint();
-                cliente.cambar();
-                barbero1.AgragarCliente(cliente2.getLable());
-                barbero1.setEstado(1);
-                barbero1.setCliente(cliente2);
-                clientes.remove(0);
-                CorrerClientes();
-                AtenderCliente atender = new AtenderCliente(barbero1.getBarra(), barbero1);
-                atender.start();
-            } else if (barbero2.getEstado() != 1) {
-                sofaPanel.remove(cliente2.getLable());
-                sofaPanel.repaint();
-                barbero2.getPanel().remove(durmiendo);
-                barbero2.getPanel().repaint();
-                cliente.cambar();
-                barbero2.AgragarCliente(cliente2.getLable());
-                barbero2.setEstado(1);
-                barbero2.setCliente(cliente2);
-                clientes.remove(0);
-                CorrerClientes();
-                AtenderCliente atender = new AtenderCliente(barbero2.getBarra(), barbero2);
-                atender.start();
-            } else if (barbero3.getEstado() != 1) {
-                sofaPanel.remove(cliente2.getLable());
-                sofaPanel.repaint();
-                barbero3.getPanel().remove(durmiendo);
-                barbero3.getPanel().repaint();
-                cliente.cambar();
-                barbero3.AgragarCliente(cliente2.getLable());
-                barbero3.setEstado(1);
-                barbero3.setCliente(cliente2);
-                clientes.remove(0);
-                CorrerClientes();
-                AtenderCliente atender = new AtenderCliente(barbero3.getBarra(), barbero3);
-                atender.start();
-
-            } else {
-                
-            }
-
+            clientes.add(cliente);
+            contador++;
+            atender();
         } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes para atender", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("ESPACIO LLENO");
         }
     }//GEN-LAST:event_btncrearClientesActionPerformed
 
@@ -471,7 +476,6 @@ public class Barberia extends javax.swing.JFrame {
             verificacionCobro = 0;//la caja ahora esta en espera
             barbero.getPanel().remove(label);
             barbero.getPanel().repaint();
-
             durmiendo.setPreferredSize(new Dimension(96, 84));
             durmiendo.setIcon(new ImageIcon("src/img/durmiendo.png"));
             System.out.println("entro");
