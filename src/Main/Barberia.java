@@ -480,6 +480,7 @@ public class Barberia extends javax.swing.JFrame {
             durmiendo.setIcon(new ImageIcon("src/img/durmiendo.png"));
             System.out.println("entro");
             barbero.AgragarCliente(durmiendo);
+            atender_cliente();
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
