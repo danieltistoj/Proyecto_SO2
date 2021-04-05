@@ -193,7 +193,7 @@ public class Barberia extends javax.swing.JFrame {
             .addGap(0, 80, Short.MAX_VALUE)
         );
 
-        jPanel2.add(sofaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, -1, -1));
+        jPanel2.add(sofaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 380, 410, -1));
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(18, 79, 124));
@@ -211,7 +211,7 @@ public class Barberia extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(18, 79, 124));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("SILLAS DE LOS BARBEROS");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 180, 40));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 200, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -322,7 +322,7 @@ public class Barberia extends javax.swing.JFrame {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes para atender", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("no hay clientes");
         }
     }
     private void btncrearClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearClientesActionPerformed
@@ -400,7 +400,7 @@ public class Barberia extends javax.swing.JFrame {
     }
 
     public class AtenderCliente extends Thread {
-
+        int rand= (int)Math.random()*50+25;
         JProgressBar barra;
         Barbero barbero;
 
@@ -426,17 +426,23 @@ public class Barberia extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
                 if (verificacionCobro == 0) {
                     CobrarCliente cobrar = new CobrarCliente(barbero);
                     cobrar.start();
                     aux = false;
                 }
-
+                mutex.release();
             }
             System.out.println("borra cliente");
             barbero.getPanel().remove(barbero.getCliente().getLable());
             barbero.getPanel().repaint();
             barra.setValue(0);
+            
         }
 
     }
@@ -457,9 +463,14 @@ public class Barberia extends javax.swing.JFrame {
             System.out.println("entro");
             barbero.AgragarCliente(label);
         }
-
+        
         @Override
         public void run() {
+            try {
+                mutex.acquire();
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
             for (int i = 1; i <= 100; i++) {
                 try {
                     Thread.sleep(50);
@@ -480,6 +491,7 @@ public class Barberia extends javax.swing.JFrame {
             durmiendo.setIcon(new ImageIcon("src/img/durmiendo.png"));
             System.out.println("entro");
             barbero.AgragarCliente(durmiendo);
+            mutex.release();
             atender_cliente();
         }
     }
