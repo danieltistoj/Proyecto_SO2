@@ -275,7 +275,7 @@ public class Barberia extends javax.swing.JFrame {
             posicionY -= 84;
         }
     }
-    public void atender(){
+    public void atender_cliente(){
         if (clientes.size() != 0) {
             //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
             Cliente cliente = clientes.get(0);
@@ -344,7 +344,7 @@ public class Barberia extends javax.swing.JFrame {
             mutex.release();
             clientes.add(cliente);
             contador++;
-            atender();
+            atender_cliente();
         } else if (clientes.size() < 8) {//Clientes que esperan de pie
             cliente.getLable().setBounds(0, posicionY, 96, 84);
             try {
@@ -358,7 +358,7 @@ public class Barberia extends javax.swing.JFrame {
             mutex.release();
             clientes.add(cliente);
             contador++;
-            atender();
+            atender_cliente();
         } else {
             System.out.println("ESPACIO LLENO");
         }
