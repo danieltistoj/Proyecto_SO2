@@ -10,6 +10,14 @@ import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import Clase.*;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.util.concurrent.Semaphore;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -18,11 +26,26 @@ import java.awt.Color;
 public class Barberia extends javax.swing.JFrame {
 
     ArrayList<Cliente> clientes;
+    int contador, posicionX = 0, posicionY = 0, verificacionCobro;
+    Barbero barbero1, barbero2, barbero3;
+    JLabel durmiendo = new JLabel();
+    Semaphore mutex = new Semaphore(1, true);
+
     public Barberia() {
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
         clientes = new ArrayList<Cliente>();
+        contador = 0;
+
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbLogo, "src/img/barbero.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(jLabelcaja, "src/img/caja.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(jLabelDolar, "src/img/dolar.png");
+
+        barbero1 = new Barbero("Barbero 1", sillaUno, barraUno);
+        barbero2 = new Barbero("Barbero 2", sillaDos, barraDos);
+        barbero3 = new Barbero("Barbero 3", sillaTres, barraTres);
+        verificacionCobro = 0;//si esta en cero no hay nadie cobrando, si esta en uno hay alguien cobrando en la caja registradora
     }
 
     /**
@@ -34,36 +57,53 @@ public class Barberia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        barberia = new javax.swing.JPanel();
-        sillaDos = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btncrearClientes = new javax.swing.JButton();
         sillaUno = new javax.swing.JPanel();
-        sofaPanel = new javax.swing.JPanel();
+        sillaDos = new javax.swing.JPanel();
         sillaTres = new javax.swing.JPanel();
+        barraUno = new javax.swing.JProgressBar();
+        barraDos = new javax.swing.JProgressBar();
+        barraTres = new javax.swing.JProgressBar();
         cajaResgistadora = new javax.swing.JPanel();
+        barraCobrar = new javax.swing.JProgressBar();
+        esperaDePie = new javax.swing.JPanel();
+        labelCobrando = new javax.swing.JLabel();
+        sofaPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        lbLogo = new javax.swing.JLabel();
+        jLabelcaja = new javax.swing.JLabel();
+        TotalAcumulado = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabelDolar = new javax.swing.JLabel();
+        jLabeltotal = new javax.swing.JLabel();
+        jLabeLacum1 = new javax.swing.JLabel();
+        jLabelacum2 = new javax.swing.JLabel();
+        jLabelacum3 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        esperaDePie = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        btncrearClientes = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        barberia.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(214, 224, 230));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout sillaDosLayout = new javax.swing.GroupLayout(sillaDos);
-        sillaDos.setLayout(sillaDosLayout);
-        sillaDosLayout.setHorizontalGroup(
-            sillaDosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 96, Short.MAX_VALUE)
-        );
-        sillaDosLayout.setVerticalGroup(
-            sillaDosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 84, Short.MAX_VALUE)
-        );
+        btncrearClientes.setBackground(new java.awt.Color(0, 102, 255));
+        btncrearClientes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btncrearClientes.setText("Crear Clientes");
+        btncrearClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncrearClientesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btncrearClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, 140, 50));
+
+        sillaUno.setBackground(new java.awt.Color(214, 224, 230));
 
         javax.swing.GroupLayout sillaUnoLayout = new javax.swing.GroupLayout(sillaUno);
         sillaUno.setLayout(sillaUnoLayout);
@@ -76,18 +116,24 @@ public class Barberia extends javax.swing.JFrame {
             .addGap(0, 84, Short.MAX_VALUE)
         );
 
-        sofaPanel.setPreferredSize(new java.awt.Dimension(384, 84));
+        jPanel2.add(sillaUno, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, -1, -1));
 
-        javax.swing.GroupLayout sofaPanelLayout = new javax.swing.GroupLayout(sofaPanel);
-        sofaPanel.setLayout(sofaPanelLayout);
-        sofaPanelLayout.setHorizontalGroup(
-            sofaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        sillaDos.setBackground(new java.awt.Color(214, 224, 230));
+
+        javax.swing.GroupLayout sillaDosLayout = new javax.swing.GroupLayout(sillaDos);
+        sillaDos.setLayout(sillaDosLayout);
+        sillaDosLayout.setHorizontalGroup(
+            sillaDosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
         );
-        sofaPanelLayout.setVerticalGroup(
-            sofaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        sillaDosLayout.setVerticalGroup(
+            sillaDosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 84, Short.MAX_VALUE)
         );
+
+        jPanel2.add(sillaDos, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, -1, -1));
+
+        sillaTres.setBackground(new java.awt.Color(214, 224, 230));
 
         javax.swing.GroupLayout sillaTresLayout = new javax.swing.GroupLayout(sillaTres);
         sillaTres.setLayout(sillaTresLayout);
@@ -100,180 +146,305 @@ public class Barberia extends javax.swing.JFrame {
             .addGap(0, 84, Short.MAX_VALUE)
         );
 
+        jPanel2.add(sillaTres, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
+
+        barraUno.setStringPainted(true);
+        jPanel2.add(barraUno, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 96, -1));
+
+        barraDos.setStringPainted(true);
+        jPanel2.add(barraDos, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 96, -1));
+
+        barraTres.setStringPainted(true);
+        jPanel2.add(barraTres, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 96, -1));
+
+        cajaResgistadora.setBackground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout cajaResgistadoraLayout = new javax.swing.GroupLayout(cajaResgistadora);
         cajaResgistadora.setLayout(cajaResgistadoraLayout);
         cajaResgistadoraLayout.setHorizontalGroup(
             cajaResgistadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 62, Short.MAX_VALUE)
+            .addGap(0, 40, Short.MAX_VALUE)
         );
         cajaResgistadoraLayout.setVerticalGroup(
             cajaResgistadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 144, Short.MAX_VALUE)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
 
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Sofá");
+        jPanel2.add(cajaResgistadora, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, 40, 20));
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Área para estar de pie");
+        barraCobrar.setStringPainted(true);
+        jPanel2.add(barraCobrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 380, 80, -1));
 
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Sillas de barbero");
-
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Caja registradora");
-
+        esperaDePie.setBackground(new java.awt.Color(214, 224, 230));
+        esperaDePie.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         esperaDePie.setPreferredSize(new java.awt.Dimension(96, 336));
 
         javax.swing.GroupLayout esperaDePieLayout = new javax.swing.GroupLayout(esperaDePie);
         esperaDePie.setLayout(esperaDePieLayout);
         esperaDePieLayout.setHorizontalGroup(
             esperaDePieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 96, Short.MAX_VALUE)
+            .addGap(0, 92, Short.MAX_VALUE)
         );
         esperaDePieLayout.setVerticalGroup(
             esperaDePieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGap(0, 332, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout barberiaLayout = new javax.swing.GroupLayout(barberia);
-        barberia.setLayout(barberiaLayout);
-        barberiaLayout.setHorizontalGroup(
-            barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(barberiaLayout.createSequentialGroup()
-                .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(barberiaLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(barberiaLayout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(esperaDePie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, barberiaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cajaResgistadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))
-                    .addGroup(barberiaLayout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
-                            .addComponent(sofaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(barberiaLayout.createSequentialGroup()
-                .addGap(128, 128, 128)
-                .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(barberiaLayout.createSequentialGroup()
-                        .addComponent(sillaUno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sillaDos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
-                        .addComponent(sillaTres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(44, 44, 44))
+        jPanel2.add(esperaDePie, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, -1, -1));
+
+        labelCobrando.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        labelCobrando.setForeground(new java.awt.Color(18, 79, 124));
+        labelCobrando.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCobrando.setText("Espera....");
+        jPanel2.add(labelCobrando, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, 170, 60));
+
+        sofaPanel.setBackground(new java.awt.Color(214, 224, 230));
+        sofaPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        sofaPanel.setPreferredSize(new java.awt.Dimension(384, 84));
+
+        javax.swing.GroupLayout sofaPanelLayout = new javax.swing.GroupLayout(sofaPanel);
+        sofaPanel.setLayout(sofaPanelLayout);
+        sofaPanelLayout.setHorizontalGroup(
+            sofaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        barberiaLayout.setVerticalGroup(
-            barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, barberiaLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jLabel4)
-                .addGap(22, 22, 22)
-                .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(barberiaLayout.createSequentialGroup()
-                        .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(barberiaLayout.createSequentialGroup()
-                                .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(sillaDos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sillaTres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(2, 2, 2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, barberiaLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)))
-                        .addComponent(cajaResgistadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sofaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(barberiaLayout.createSequentialGroup()
-                        .addComponent(sillaUno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                        .addComponent(esperaDePie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(barberiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(15, 15, 15))
+        sofaPanelLayout.setVerticalGroup(
+            sofaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Barberia");
+        jPanel2.add(sofaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 410, -1));
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("CAJA REGISTRADORA");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 120, 180, 40));
 
-        btncrearClientes.setText("Crear Clientes");
-        btncrearClientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncrearClientesActionPerformed(evt);
-            }
-        });
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("BARBERIA");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 330, 40));
 
-        jButton2.setText("Atender");
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Barbero 3");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 520, 90, 30));
+        jPanel2.add(lbLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 150));
+        jPanel2.add(jLabelcaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 200, 200));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btncrearClientes)
-                .addGap(145, 145, 145)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btncrearClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
+        TotalAcumulado.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        TotalAcumulado.setForeground(new java.awt.Color(18, 79, 124));
+        TotalAcumulado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TotalAcumulado.setText("Total Acumulado");
+        jPanel2.add(TotalAcumulado, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 440, 200, 40));
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Barbero 1");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 90, 30));
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Barbero 2");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, 90, 30));
+
+        jLabel8.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("SILLAS DE LOS BARBEROS");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 200, 40));
+        jPanel2.add(jLabelDolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 80, 70));
+
+        jLabeltotal.setBackground(new java.awt.Color(0, 102, 255));
+        jLabeltotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabeltotal.setText("$ 0");
+        jPanel2.add(jLabeltotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 470, 90, 30));
+
+        jLabeLacum1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabeLacum1.setText("$ 0");
+        jPanel2.add(jLabeLacum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 550, 80, 40));
+
+        jLabelacum2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelacum2.setText("$ 0");
+        jPanel2.add(jLabelacum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, 80, 30));
+
+        jLabelacum3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelacum3.setText("$ 0");
+        jPanel2.add(jLabelacum3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 550, 100, 30));
+
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Barbero 1");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 90, 30));
+
+        jLabel10.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Barbero 2");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 90, 30));
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(18, 79, 124));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Barbero 3");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 90, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(barberia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(49, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(barberia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Este metodo funciona para correr a los clientes una posicion para poder ser los siguientes en ser atendidos
+    public void CorrerClientes() {
+        int cont = 0;
+        for (Cliente cliente : clientes) {
+            System.out.println("cliente en proceso " + cliente.getLable().getText());
+            /*
+        Esta condicion corre hacia la izquierda los clientes 
+        del panel de sofa, la condicion del contador es que debe de 
+        ser menor a 3 ya que si habia 5 clietes en principio significa que habran 4 en sofa 
+        y 1 de pie por lo tanto, si se elimina uno hay 3 en sofa y 1 de pie, y por lo tanto las posiciones 
+        cambian, el que era posicion 1 sera ahora posicion 0, y si era posicion 4 que ya es una posicion
+        para estar de pie ahora sera posicion 4 y debera de pasar a al final del sofa. 
+             */
+            if (cont < 3) {
+                int x = cliente.getLable().getX();
+                x = x - 96;
+                cliente.getLable().setBounds(x, 0, 96, 84);
+                sofaPanel.repaint();
+            } else {
+                System.out.println("contador " + cont);
+                /*
+            Esta condicion es si hay alguno en el panel de espera de pie, ahora el que esta al inicio de este
+            panel debera de pasar al final del panel de sofa. 
+                 */
+                if (cont == 3) {
+                    System.out.println("entro " + cliente.getLable().getText());
+                    esperaDePie.remove(cliente.getLable());
+                    esperaDePie.repaint();
+                    cliente.getLable().setBounds(282, 0, 96, 84);
+                    sofaPanel.add(cliente.getLable());
+                    sofaPanel.repaint();
+                } /*
+            Esta condicion es para correr hacia arriba los clientes del panel de espera de pie 
+                 */ else {
+                    int y = cliente.getLable().getY();
+                    y = y - 84;
+                    cliente.getLable().setBounds(0, y, 96, 84);
+                    esperaDePie.repaint();
+                }
+            }
+            cont++;
+        }
+        if (clientes.size() < 4) {
+            posicionX -= 96;
+        } else {
+            posicionY -= 84;
+        }
+    }
+
+    public void atender_cliente() {
+        if (clientes.size() != 0) {
+            //Simpre buscaremos atender al cliente que esta en la posicion 0. por respetar una fila  
+            Cliente cliente = clientes.get(0);
+            if (barbero1.getEstado() != 1) {
+                sofaPanel.remove(cliente.getLable());
+                sofaPanel.repaint();
+                barbero1.getPanel().remove(durmiendo);
+                barbero1.getPanel().repaint();
+                cliente.cambar();
+                barbero1.AgragarCliente(cliente.getLable());
+                barbero1.setEstado(1);
+                barbero1.setCliente(cliente);
+                clientes.remove(0);
+                CorrerClientes();
+                AtenderCliente atender = new AtenderCliente(barbero1.getBarra(), barbero1);
+                atender.start();
+            } else if (barbero2.getEstado() != 1) {
+                sofaPanel.remove(cliente.getLable());
+                sofaPanel.repaint();
+                barbero2.getPanel().remove(durmiendo);
+                barbero2.getPanel().repaint();
+                cliente.cambar();
+                barbero2.AgragarCliente(cliente.getLable());
+                barbero2.setEstado(1);
+                barbero2.setCliente(cliente);
+                clientes.remove(0);
+                CorrerClientes();
+                AtenderCliente atender = new AtenderCliente(barbero2.getBarra(), barbero2);
+                atender.start();
+            } else if (barbero3.getEstado() != 1) {
+                sofaPanel.remove(cliente.getLable());
+                sofaPanel.repaint();
+                barbero3.getPanel().remove(durmiendo);
+                barbero3.getPanel().repaint();
+                cliente.cambar();
+                barbero3.AgragarCliente(cliente.getLable());
+                barbero3.setEstado(1);
+                barbero3.setCliente(cliente);
+                clientes.remove(0);
+                CorrerClientes();
+                AtenderCliente atender = new AtenderCliente(barbero3.getBarra(), barbero3);
+                atender.start();
+            } else {
+            }
+
+        } else {
+            System.out.println("no hay clientes");
+        }
+    }
     private void btncrearClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearClientesActionPerformed
-        ProducirCliente producirCliete = new ProducirCliente();
-        producirCliete.start();
+        String nombre = "Cliente " + (contador + 1);
+        Cliente cliente = new Cliente();
+        cliente.setNombre(nombre);
+        if (clientes.size() < 4) { //Clientes que esperan en le sofa
+            System.out.println("posicion en X " + posicionX);
+            cliente.getLable().setBounds(posicionX, 0, 96, 84);
+            JLabel m = cliente.getLable();
+            try {
+                mutex.acquire();
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            sofaPanel.add(m);
+            sofaPanel.repaint();
+            posicionX += 96;
+            mutex.release();
+            clientes.add(cliente);
+            contador++;
+            atender_cliente();
+        } else if (clientes.size() < 8) {//Clientes que esperan de pie
+            cliente.getLable().setBounds(0, posicionY, 96, 84);
+            try {
+                mutex.acquire();
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            esperaDePie.add(cliente.getLable());
+            esperaDePie.repaint();
+            posicionY += 84;
+            mutex.release();
+            clientes.add(cliente);
+            contador++;
+            atender_cliente();
+        } else {
+            System.out.println("ESPACIO LLENO");
+        }
     }//GEN-LAST:event_btncrearClientesActionPerformed
 
     /**
@@ -310,60 +481,151 @@ public class Barberia extends javax.swing.JFrame {
             }
         });
     }
-       public class ProducirCliente extends Thread {
+
+    public class AtenderCliente extends Thread {
+
+        int rand = (int) Math.random() * 50 + 25;
+        JProgressBar barra;
+        Barbero barbero;
+
+        public AtenderCliente(JProgressBar barra, Barbero barbero) {
+            this.barra = barra;
+            this.barbero = barbero;
+        }
 
         @Override
         public void run() {
-           int contador = 0, posicionX = 0,posicionY = 0;
-           String nombre = "";
-            while (contador<8) {
-                nombre = "Cliente "+(contador+1);
-                Cliente cliente = new Cliente();
-                cliente.setNombre(nombre);
-                if(clientes.size()<4){ //Clientes que esperan en le sofa
-                    cliente.getLable().setBounds(posicionX,0, 96, 84);
-                    sofaPanel.add(cliente.getLable());
-                    sofaPanel.repaint();
-                    posicionX+=94;
+            for (int i = 1; i <= 100; i++) {
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
-                else{//Clientes que esperan de pie
-                    cliente.getLable().setBounds(0,posicionY, 96, 84);
-                    esperaDePie.add(cliente.getLable());
-                    esperaDePie.repaint();
-                    posicionY+=84;
-                    
-                }
-                clientes.add(cliente);
-                contador++ ;
-                 System.out.println("tamaño array: "+clientes.size());
+                barra.setValue(i);
+            }
+            boolean aux = true;
+            while (aux) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                if (verificacionCobro == 0) {
+                    CobrarCliente cobrar = new CobrarCliente(barbero);
+                    cobrar.start();
+                    aux = false;
+                }
+                mutex.release();
             }
+            System.out.println("borra cliente");
+            barbero.getPanel().remove(barbero.getCliente().getLable());
+            barbero.getPanel().repaint();
+            barra.setValue(0);
+
+        }
+
+    }
+
+    int b1 = 10, b2 = 10, b3 = 10;    //monto acumulado para barbero 1,2,3
+    int total = 0;        // monto acumulado total
+
+    public void actualizarcobro(String barbero) {
+        if (barbero == "Barbero 1") {
+            jLabeLacum1.setText("$ " + String.valueOf(b1));
+            b1 += 10;
+            total += 10;
+            jLabeltotal.setText("$ " + String.valueOf(total));
+        } else if (barbero == "Barbero 2") {
+            jLabelacum2.setText("$ " + String.valueOf(b2));
+            b2 += 10;
+            total += 10;
+            jLabeltotal.setText("$ " + String.valueOf(total));
+        } else if (barbero == "Barbero 3"){
+            jLabelacum3.setText("$ " + String.valueOf(b3));
+            b3 += 10;
+            total += 10;
+            jLabeltotal.setText("$ " + String.valueOf(total));
         }
     }
 
+    public class CobrarCliente extends Thread {
+
+        Barbero barbero;
+        JLabel label = new JLabel();
+        int TotalAcumulado = 0;
+
+        public CobrarCliente(Barbero barbero) {
+            this.barbero = barbero;
+            verificacionCobro = 1;
+            cajaResgistadora.setBackground(Color.GREEN);
+            String text = "<html><body>" + "Cobrando a " + this.barbero.getCliente().getNombre() + "<br>" + "el barbero " + barbero.getNombre() + "</body></html>";
+            System.out.println(this.barbero.getCliente().getNombre());
+            actualizarcobro(barbero.getNombre());
+            labelCobrando.setText(text);
+            label.setPreferredSize(new Dimension(96, 84));
+            label.setIcon(new ImageIcon("src/img/pagando.png"));
+            System.out.println("entro");
+            barbero.AgragarCliente(label);
+        }
+
+        @Override
+        public void run() {
+
+            for (int i = 1; i <= 100; i++) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(Barberia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                barraCobrar.setValue(i);
+            }
+            //termina de cobrar
+            barbero.setEstado(0);//regresamos al estado cero al barbero
+            cajaResgistadora.setBackground(Color.black);
+            labelCobrando.setText("Espera...");
+            barraCobrar.setValue(0);
+            verificacionCobro = 0;//la caja ahora esta en espera
+            barbero.getPanel().remove(label);
+            barbero.getPanel().repaint();
+            durmiendo.setPreferredSize(new Dimension(96, 84));
+            durmiendo.setIcon(new ImageIcon("src/img/durmiendo.png"));
+            System.out.println("entro");
+            barbero.AgragarCliente(durmiendo);
+            atender_cliente();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel barberia;
+    private javax.swing.JLabel TotalAcumulado;
+    private javax.swing.JProgressBar barraCobrar;
+    private javax.swing.JProgressBar barraDos;
+    private javax.swing.JProgressBar barraTres;
+    private javax.swing.JProgressBar barraUno;
     private javax.swing.JButton btncrearClientes;
     private javax.swing.JPanel cajaResgistadora;
     private javax.swing.JPanel esperaDePie;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabeLacum1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelDolar;
+    private javax.swing.JLabel jLabelacum2;
+    private javax.swing.JLabel jLabelacum3;
+    private javax.swing.JLabel jLabelcaja;
+    private javax.swing.JLabel jLabeltotal;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel labelCobrando;
+    private javax.swing.JLabel lbLogo;
     private javax.swing.JPanel sillaDos;
     private javax.swing.JPanel sillaTres;
     private javax.swing.JPanel sillaUno;
